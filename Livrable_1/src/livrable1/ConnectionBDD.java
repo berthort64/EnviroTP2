@@ -14,7 +14,7 @@ public class ConnectionBDD {
 		
 	try {
 		
-	Class.forName("org.gjt.mm.mysql.Driver"); 
+	Class.forName("com.mysql.cj.jdbc.Driver"); 
 	laConnexion=DriverManager.getConnection(url,"root","p@ssw0rd");	
 		
 	}catch(Exception ex) {
@@ -30,7 +30,7 @@ public class ConnectionBDD {
 		
 		try {
 			
-		String requete="Insert into artistes values('"+nom+"',"+membre+",'"+pathPhoto+"');";
+		String requete="Insert into artistes values("+null+",'"+nom+"',"+membre+",'"+pathPhoto+"');";
 		//A verifier membre=true/false or 1/0
 		statement = laConnexion.createStatement();
 		statement.executeUpdate(requete);
@@ -47,14 +47,33 @@ public class ConnectionBDD {
 	public static void Modifier() {
 		
 		
-		
+	//TODO	
 		
 	}
+	
+	public void SupprimerToutEnregistrements() {
+		
+		try {
+			
+			String requete="Delete from artistes;";
+			//A verifier membre=true/false or 1/0
+			statement = laConnexion.createStatement();
+			statement.executeUpdate(requete);
+			
+			}catch(Exception ex) {
+				
+			System.out.print("Erreur: ");
+			ex.printStackTrace();
+				
+			}
+		
+	}
+	
 	
 	public static void Supprimer() {
 		
 		
-		
+	//TODO	
 		
 	}
 	
