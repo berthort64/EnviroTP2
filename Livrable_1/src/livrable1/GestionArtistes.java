@@ -38,7 +38,7 @@ public class GestionArtistes extends JFrame {
 	private JTable table;
 	private JTextField textField_1;
 	private JTextField textField_2;
-
+	private JLabel lblNewLabel;
 	/**
 	 * Create the frame.
 	 */
@@ -68,26 +68,37 @@ public class GestionArtistes extends JFrame {
 		getContentPane().add(chckbxMember);
 		
 		table = new JTable();
+		table.setDefaultEditor(Object.class, null);
+		
 		table.setModel(new DefaultTableModel(
 			new Object[0][3],
 			new String[] {
 				"No", "Nom", "Membre"
 			}
-		) {
+		
+		)
+		
+		{
 			Class[] columnTypes = new Class[] {
-				Integer.class, Object.class, Object.class
+				Object.class, Object.class, Object.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 		});
+		
 		table.setBounds(171, 134, 338, 135);
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
 	        	if (table.getSelectedRow() != -1) {
+	        		//test image
+	        		Artiste artiste=(Artiste)(table.getValueAt(table.getSelectedRow(),1));
+	        		ImageIcon image=new ImageIcon(new ImageIcon(this.getClass().getResource(artiste.getPhoto())).getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
+	        		lblNewLabel.setIcon(image);
 		            textField_1.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
 		            textField_2.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
 		            chckbxMember.setSelected(table.getValueAt(table.getSelectedRow(), 2).toString().equalsIgnoreCase("oui"));
+		            
 	        	} else {
 	        		textField_1.setText("");
 					textField_2.setText("");
@@ -106,7 +117,7 @@ public class GestionArtistes extends JFrame {
 				
 				for (int i = 0; i < artistes.size(); i++) {
 					liste[i][0] = artistes.get(i).getId();
-					liste[i][1] = artistes.get(i).getNom();
+					liste[i][1] = artistes.get(i);
 					liste[i][2] = artistes.get(i).getMembre().equals("1") ? "Oui" : "Non";
 				}
 				
@@ -212,7 +223,7 @@ public class GestionArtistes extends JFrame {
 		getContentPane().add(list);
 		
 		ImageIcon image=new ImageIcon(new ImageIcon(this.getClass().getResource("MusicNote.png")).getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
-		JLabel lblNewLabel = new JLabel(image);
+		lblNewLabel = new JLabel(image);
 		lblNewLabel.setBounds(35, 143, 90, 90);
 		getContentPane().add(lblNewLabel);
 		DefaultTableModel model = new DefaultTableModel();
