@@ -16,9 +16,11 @@ import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.ListSelectionModel;
@@ -28,7 +30,6 @@ public class GestionArtistes extends JFrame {
 	private JTable table;
 	private JTextField textField_1;
 	private JTextField textField_2;
-	private JTable table_1;
 
 	/**
 	 * Launch the application.
@@ -66,7 +67,70 @@ public class GestionArtistes extends JFrame {
 		getContentPane().add(textField);
 		textField.setColumns(10);
 		
+		ConnectionBDD con =new ConnectionBDD();
+		
+		JCheckBox chckbxMember = new JCheckBox("Membre");
+		chckbxMember.setBounds(35, 390, 126, 23);
+		getContentPane().add(chckbxMember);
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[0][3],
+			new String[] {
+				"No", "Nom", "Membre"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Integer.class, Object.class, Object.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table.setBounds(171, 134, 338, 135);
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	        	if (table.getSelectedRow() != -1) {
+		            textField_1.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
+		            textField_2.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
+		            chckbxMember.setSelected(table.getValueAt(table.getSelectedRow(), 2).toString().equalsIgnoreCase("oui"));
+	        	} else {
+	        		textField_1.setText("");
+					textField_2.setText("");
+					chckbxMember.setSelected(false);
+	        	}
+	        }
+	    });
+		getContentPane().add(table);
+		
 		JButton btnRechercher = new JButton("Rechercher");
+		btnRechercher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ArrayList<Artiste> artistes = con.Rechercher(textField.getText());
+				
+				Object[][] liste = new Object[artistes.size()][3];
+				
+				for (int i = 0; i < artistes.size(); i++) {
+					liste[i][0] = artistes.get(i).getId();
+					liste[i][1] = artistes.get(i).getNom();
+					liste[i][2] = artistes.get(i).getMembre().equals("1") ? "Oui" : "Non";
+				}
+				
+				table.setModel(new DefaultTableModel(
+						liste,
+						new String[] {
+							"No", "Nom", "Membre"
+						}
+					) {
+						Class[] columnTypes = new Class[] {
+							Integer.class, Object.class, Object.class
+						};
+						public Class getColumnClass(int columnIndex) {
+							return columnTypes[columnIndex];
+						}
+					});
+			}
+		});
 		btnRechercher.setBounds(288, 47, 114, 25);
 		getContentPane().add(btnRechercher);
 		
@@ -79,30 +143,30 @@ public class GestionArtistes extends JFrame {
 		lblArtistes.setBounds(35, 106, 104, 25);
 		getContentPane().add(lblArtistes);
 		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{new Integer(1), "Jean", null},
-			},
-			new String[] {
-				"No", "Nom", "Membre"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Integer.class, Object.class, Object.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
+		JButton btnNouveau = new JButton("Nouveau");
+		btnNouveau.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				textField_1.setText("");
+				textField_2.setText("");
+				chckbxMember.setSelected(false);
 			}
 		});
-		table.setBounds(214, 171, 1, 1);
-		getContentPane().add(table);
-		
-		JButton btnNouveau = new JButton("Nouveau");
 		btnNouveau.setBounds(521, 134, 114, 25);
 		getContentPane().add(btnNouveau);
 		
 		JButton btnAjouter = new JButton("Ajouter");
+		btnAjouter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (textField_1.getText().equals("") ? true : JOptionPane.showConfirmDialog(null, "Attention!\n\nVous n'aviez pas créé un nouvel enregistrement avant de remplir les champs.\nVoulez-vous tout de même enregistrer un nouvel artiste (avec un nouvel identifiant) avec les données fournies?") == JOptionPane.YES_OPTION) {
+					if (validerChamps()) {
+						con.Ajouter(textField_2.getText(), chckbxMember.isSelected() ? "true" : "false", "/dev/null");
+						btnRechercher.doClick();
+					} else {
+						JOptionPane.showMessageDialog(null, "Veuillez vous assurer que tous les champs sont valides.");
+					}
+				}
+			}
+		});
 		btnAjouter.setBounds(521, 171, 114, 25);
 		getContentPane().add(btnAjouter);
 		
@@ -117,6 +181,7 @@ public class GestionArtistes extends JFrame {
 		JButton btnRemplacer = new JButton("Remplacer");
 		btnRemplacer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				con.Rechercher(textField.getText());
 			}
 		});
 		btnRemplacer.setBounds(25, 245, 114, 25);
@@ -128,6 +193,7 @@ public class GestionArtistes extends JFrame {
 		getContentPane().add(lblInformations);
 		
 		textField_1 = new JTextField();
+		textField_1.setEnabled(false);
 		textField_1.setColumns(10);
 		textField_1.setBounds(100, 330, 144, 19);
 		getContentPane().add(textField_1);
@@ -136,10 +202,6 @@ public class GestionArtistes extends JFrame {
 		textField_2.setColumns(10);
 		textField_2.setBounds(100, 361, 144, 19);
 		getContentPane().add(textField_2);
-		
-		JCheckBox chckbxMember = new JCheckBox("Membr\ne");
-		chckbxMember.setBounds(35, 390, 126, 23);
-		getContentPane().add(chckbxMember);
 		
 		JLabel lblNumro = new JLabel("Numero");
 		lblNumro.setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -152,25 +214,19 @@ public class GestionArtistes extends JFrame {
 		getContentPane().add(lblNom);
 		
 		JList list = new JList();
-		list.setBounds(288, 330, 164, 87);
+		list.setBounds(288, 324, 164, 93);
 		getContentPane().add(list);
-		
-		table_1 = new JTable();
 		Object[] columns = {"No","Nom","Membre"};
 		DefaultTableModel model = new DefaultTableModel();
 		model.setColumnIdentifiers(columns);
-		table_1.setModel(model);
 		Object[] row = new Object[3];
 		row[0]="1";
 		row[1]="nom1";
 		row[2]="oui";
 		model.addRow(row);
-		
-		
-		table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table_1.setBounds(139, 130, 371, 103);
-		getContentPane().add(table_1);
-		
-		ConnectionBDD con =new ConnectionBDD();
+	}
+	
+	public boolean validerChamps() {
+		return textField_2.getText().matches("^[a-zA-Z\\-_ ]{3,63}$");
 	}
 }

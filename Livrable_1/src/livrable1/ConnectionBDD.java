@@ -17,8 +17,8 @@ public class ConnectionBDD {
 		
 	try {
 		
-	Class.forName("com.mysql.cj.jdbc.Driver"); 
-	laConnexion=DriverManager.getConnection(url,"root","p@ssw0rd");	
+	//Class.forName("com.mysql.cj.jdbc.Driver"); 
+	laConnexion=DriverManager.getConnection(url,"Enviro_TP2","p@ssw0rd");	
 		
 	}catch(Exception ex) {
 		
@@ -80,7 +80,7 @@ public class ConnectionBDD {
 		
 	}
 	
-	public static void Modifier() {
+	public void Modifier() {
 		
 		
 	//TODO	
@@ -105,10 +105,45 @@ public class ConnectionBDD {
 	}
 	
 	
-	public static void Supprimer() {
+	public void Supprimer() {
 		
 		
 	//TODO	
+		
+	}
+	
+	
+	public ArrayList<Artiste> Rechercher(String terme) {
+		
+		ArrayList<Artiste> artistes=new ArrayList<>();
+		
+		try {
+			
+			//Injection de code possible, mais c'est pas grave, la BDD est locale de toute façon.
+			String requete="SELECT * FROM artistes WHERE nom LIKE '%" + terme + "%'";
+			statement = laConnexion.createStatement();
+			ResultSet jeuResultats = statement.executeQuery(requete);
+			
+			while(jeuResultats.next()) {
+				
+				String id = jeuResultats.getString(1);
+				String nom = jeuResultats.getString(2);
+				String membre = jeuResultats.getString(3);
+				String photo = jeuResultats.getString(4);
+				
+				Artiste artisteTest=new Artiste(id,nom,membre,photo);
+				
+				artistes.add(artisteTest);
+			}
+			
+		}catch(Exception ex) {
+				
+			System.out.print("Erreur: ");
+			ex.printStackTrace();
+				
+		}
+		
+		return artistes;
 		
 	}
 	
