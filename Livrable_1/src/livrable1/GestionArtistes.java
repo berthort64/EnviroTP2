@@ -7,8 +7,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.border.BevelBorder;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -26,32 +30,22 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.ListSelectionModel;
 
 public class GestionArtistes extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JTable table;
 	private JTextField textField_1;
 	private JTextField textField_2;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GestionArtistes frame = new GestionArtistes();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("serial")
 	public GestionArtistes() {
-		setTitle("Gestion des artistes");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FenetreTraitement.class.getResource("/livrable1/MusicNote.png")));
+		setTitle("Gestion des artistes \u266A");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 673, 479);
@@ -216,14 +210,13 @@ public class GestionArtistes extends JFrame {
 		JList list = new JList();
 		list.setBounds(288, 324, 164, 93);
 		getContentPane().add(list);
-		Object[] columns = {"No","Nom","Membre"};
+		
+		ImageIcon image=new ImageIcon(new ImageIcon(this.getClass().getResource("MusicNote.png")).getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
+		JLabel lblNewLabel = new JLabel(image);
+		lblNewLabel.setBounds(35, 143, 90, 90);
+		getContentPane().add(lblNewLabel);
 		DefaultTableModel model = new DefaultTableModel();
-		model.setColumnIdentifiers(columns);
-		Object[] row = new Object[3];
-		row[0]="1";
-		row[1]="nom1";
-		row[2]="oui";
-		model.addRow(row);
+		
 	}
 	
 	public boolean validerChamps() {
