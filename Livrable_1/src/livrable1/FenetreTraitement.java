@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
@@ -82,9 +83,20 @@ public class FenetreTraitement extends JFrame {
 		if (btnQuitter == null) {
 			btnQuitter = new JButton("Quitter");
 			btnQuitter.addActionListener(new ActionListener() {
+				
 				public void actionPerformed(ActionEvent e) {
 					
-					
+					 int option = JOptionPane.showOptionDialog(null, 
+						        "Voulez vous vraiment quitter?", 
+						        null, 
+						        JOptionPane.OK_CANCEL_OPTION, 
+						        JOptionPane.INFORMATION_MESSAGE, 
+						        null, 
+						        new String[]{"Oui", "Non"}, 
+						        "default");
+			            if( option == JOptionPane.YES_OPTION ) {  
+			                System.exit( 0 );  
+			            }  
 					
 				}
 			});

@@ -19,12 +19,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
 import javax.swing.JList;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.ListSelectionModel;
 
 public class GestionArtistes extends JFrame {
 	private JTextField textField;
 	private JTable table;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	private JTable table_1;
 
 	/**
 	 * Launch the application.
@@ -137,7 +141,7 @@ public class GestionArtistes extends JFrame {
 		chckbxMember.setBounds(35, 390, 126, 23);
 		getContentPane().add(chckbxMember);
 		
-		JLabel lblNumro = new JLabel("Numéro");
+		JLabel lblNumro = new JLabel("Numero");
 		lblNumro.setFont(new Font("Dialog", Font.PLAIN, 12));
 		lblNumro.setBounds(35, 330, 60, 15);
 		getContentPane().add(lblNumro);
@@ -150,5 +154,23 @@ public class GestionArtistes extends JFrame {
 		JList list = new JList();
 		list.setBounds(288, 330, 164, 87);
 		getContentPane().add(list);
+		
+		table_1 = new JTable();
+		Object[] columns = {"No","Nom","Membre"};
+		DefaultTableModel model = new DefaultTableModel();
+		model.setColumnIdentifiers(columns);
+		table_1.setModel(model);
+		Object[] row = new Object[3];
+		row[0]="1";
+		row[1]="nom1";
+		row[2]="oui";
+		model.addRow(row);
+		
+		
+		table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table_1.setBounds(139, 130, 371, 103);
+		getContentPane().add(table_1);
+		
+		ConnectionBDD con =new ConnectionBDD();
 	}
 }
