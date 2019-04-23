@@ -57,7 +57,8 @@ public class FenetreTraitement extends JFrame {
 			btnArtistes.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					//TODO
+					GestionArtistes gestionArtistes=new GestionArtistes();
+					gestionArtistes.main(null);
 					
 				}
 			});
@@ -71,7 +72,7 @@ public class FenetreTraitement extends JFrame {
 			btnAlbums.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					//TODO
+					JOptionPane.showMessageDialog(null, "Cette fonction n'est pas encore implémenté");
 					
 				}
 			});
