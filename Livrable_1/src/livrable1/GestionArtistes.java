@@ -28,6 +28,8 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.ListSelectionModel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class GestionArtistes extends JFrame {
 	/**
@@ -39,6 +41,7 @@ public class GestionArtistes extends JFrame {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JLabel lblNewLabel;
+	private String currentpath="MusicNote.png";
 	/**
 	 * Create the frame.
 	 */
@@ -66,47 +69,6 @@ public class GestionArtistes extends JFrame {
 		JCheckBox chckbxMember = new JCheckBox("Membre");
 		chckbxMember.setBounds(35, 390, 126, 23);
 		getContentPane().add(chckbxMember);
-		
-		table = new JTable();
-		table.setDefaultEditor(Object.class, null);
-		
-		table.setModel(new DefaultTableModel(
-			new Object[0][3],
-			new String[] {
-				"No", "Nom", "Membre"
-			}
-		
-		)
-		
-		{
-			Class[] columnTypes = new Class[] {
-				Object.class, Object.class, Object.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		
-		table.setBounds(171, 134, 338, 135);
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
-	        	if (table.getSelectedRow() != -1) {
-	        		//test image
-	        		Artiste artiste=(Artiste)(table.getValueAt(table.getSelectedRow(),1));
-	        		ImageIcon image=new ImageIcon(new ImageIcon(this.getClass().getResource(artiste.getPhoto())).getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
-	        		lblNewLabel.setIcon(image);
-		            textField_1.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
-		            textField_2.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
-		            chckbxMember.setSelected(table.getValueAt(table.getSelectedRow(), 2).toString().equalsIgnoreCase("oui"));
-		            
-	        	} else {
-	        		textField_1.setText("");
-					textField_2.setText("");
-					chckbxMember.setSelected(false);
-	        	}
-	        }
-	    });
-		getContentPane().add(table);
 		
 		JButton btnRechercher = new JButton("Rechercher");
 		btnRechercher.addActionListener(new ActionListener() {
@@ -164,7 +126,7 @@ public class GestionArtistes extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (textField_1.getText().equals("") ? true : JOptionPane.showConfirmDialog(null, "Attention!\n\nVous n'aviez pas créé un nouvel enregistrement avant de remplir les champs.\nVoulez-vous tout de même enregistrer un nouvel artiste (avec un nouvel identifiant) avec les données fournies?") == JOptionPane.YES_OPTION) {
 					if (validerChamps()) {
-						con.Ajouter(textField_2.getText(), chckbxMember.isSelected() ? "true" : "false", "/dev/null");
+						con.Ajouter(textField_2.getText(), chckbxMember.isSelected() ? "true" : "false", currentpath);
 						btnRechercher.doClick();
 					} else {
 						JOptionPane.showMessageDialog(null, "Veuillez vous assurer que tous les champs sont valides.");
@@ -226,8 +188,60 @@ public class GestionArtistes extends JFrame {
 		lblNewLabel = new JLabel(image);
 		lblNewLabel.setBounds(35, 143, 90, 90);
 		getContentPane().add(lblNewLabel);
-		DefaultTableModel model = new DefaultTableModel();
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(161, 134, 350, 136);
+		getContentPane().add(scrollPane);
+		
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		table.setDefaultEditor(Object.class, null);
+		
+		table.setModel(new DefaultTableModel(
+			new Object[0][3],
+			new String[] {
+				"No", "Nom", "Membre"
+			}
+		
+		)
+		
+		{
+			Class[] columnTypes = new Class[] {
+				Object.class, Object.class, Object.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	        	try {
+	        	if (table.getSelectedRow() != -1) {
+	        		//test image
+	        		Artiste artiste=(Artiste)(table.getValueAt(table.getSelectedRow(),1));
+	        		ImageIcon image=new ImageIcon(new ImageIcon(this.getClass().getResource(artiste.getPhoto())).getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
+	        		currentpath=artiste.getPhoto();
+	        		lblNewLabel.setIcon(image);
+		            textField_1.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
+		            textField_2.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
+		            chckbxMember.setSelected(table.getValueAt(table.getSelectedRow(), 2).toString().equalsIgnoreCase("oui"));
+		            
+	        	} else {
+	        		textField_1.setText("");
+					textField_2.setText("");
+					chckbxMember.setSelected(false);
+	        	}
+	        	}catch(Exception e) {
+	        		
+	        		
+	        		
+	        	}
+	        }
+	    });
+		DefaultTableModel model = new DefaultTableModel();
+		btnRechercher.doClick();
 	}
 	
 	public boolean validerChamps() {
