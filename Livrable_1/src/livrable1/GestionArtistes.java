@@ -1,15 +1,7 @@
 package livrable1;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.border.BevelBorder;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 
@@ -27,7 +19,6 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
@@ -69,6 +60,19 @@ public class GestionArtistes extends JFrame {
 		JCheckBox chckbxMember = new JCheckBox("Membre");
 		chckbxMember.setBounds(35, 390, 126, 23);
 		getContentPane().add(chckbxMember);
+
+		JLabel label = new JLabel("");
+		label.setBounds(530, 316, 105, 96);
+		getContentPane().add(label);
+		
+		JList list = new JList();
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				label.setIcon(new ImageIcon(new ImageIcon(this.getClass().getResource(list.getSelectedValue().toString() + ".png")).getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT)));
+			}
+		});
+		list.setBounds(288, 324, 208, 93);
+		getContentPane().add(list);
 		
 		JButton btnRechercher = new JButton("Rechercher");
 		btnRechercher.addActionListener(new ActionListener() {
@@ -90,7 +94,7 @@ public class GestionArtistes extends JFrame {
 						}
 					) {
 						Class[] columnTypes = new Class[] {
-							Integer.class, Object.class, Object.class
+							Object.class, Object.class, Object.class
 						};
 						public Class getColumnClass(int columnIndex) {
 							return columnTypes[columnIndex];
@@ -116,6 +120,9 @@ public class GestionArtistes extends JFrame {
 				textField_1.setText("");
 				textField_2.setText("");
 				chckbxMember.setSelected(false);
+				
+				list.setListData(new String[0]);
+	            label.setIcon(null);
 			}
 		});
 		btnNouveau.setBounds(521, 134, 114, 25);
@@ -180,10 +187,6 @@ public class GestionArtistes extends JFrame {
 		lblNom.setBounds(35, 363, 60, 15);
 		getContentPane().add(lblNom);
 		
-		JList list = new JList();
-		list.setBounds(288, 324, 164, 93);
-		getContentPane().add(list);
-		
 		ImageIcon image=new ImageIcon(new ImageIcon(this.getClass().getResource("MusicNote.png")).getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
 		lblNewLabel = new JLabel(image);
 		lblNewLabel.setBounds(35, 143, 90, 90);
@@ -215,6 +218,7 @@ public class GestionArtistes extends JFrame {
 				return columnTypes[columnIndex];
 			}
 		});
+		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
 	        	try {
@@ -227,6 +231,9 @@ public class GestionArtistes extends JFrame {
 		            textField_1.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
 		            textField_2.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
 		            chckbxMember.setSelected(table.getValueAt(table.getSelectedRow(), 2).toString().equalsIgnoreCase("oui"));
+		            
+		            list.setListData(con.AlbumsParArtiste(artiste).toArray());
+		            label.setIcon(null);
 		            
 	        	} else {
 	        		textField_1.setText("");

@@ -18,7 +18,7 @@ public class FenetreTraitement extends JFrame {
     private JButton btnArtistes;
     private JButton btnAlbums;
     private JButton btnQuitter;
- 
+    
     /**
      * Launch the application.
      */
@@ -72,7 +72,7 @@ public class FenetreTraitement extends JFrame {
             btnAlbums.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                    
-                    JOptionPane.showMessageDialog(null, "Cette fonction n'est pas encore implémenté");
+                    JOptionPane.showMessageDialog(null, "Cette fonction n'est pas encore implï¿½mentï¿½");
                    
                 }
             });
