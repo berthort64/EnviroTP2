@@ -147,6 +147,30 @@ public class ConnectionBDD {
 		
 	}
 	
-	
+	public ArrayList<String> AlbumsParArtiste(Artiste artiste) {
+		
+		ArrayList<String> albums=new ArrayList<String>();
+		
+		try {
+			
+			//Injection de code possible, mais c'est pas grave, la BDD est locale de toute façon.
+			String requete="SELECT titre, annee FROM albums WHERE idArtiste = " + artiste.getId();
+			statement = laConnexion.createStatement();
+			ResultSet jeuResultats = statement.executeQuery(requete);
+			
+			while(jeuResultats.next()) {
+				albums.add(jeuResultats.getString(1) + " (" + jeuResultats.getString(2) + ")");
+			}
+			
+		}catch(Exception ex) {
+				
+			System.out.print("Erreur: ");
+			ex.printStackTrace();
+				
+		}
+		
+		return albums;
+		
+	}
 	
 }
