@@ -105,10 +105,21 @@ public class ConnectionBDD {
 	}
 	
 	
-	public void Supprimer() {
+	public void Supprimer(String id) {
 		
+		try {
+			
+			String requete="Delete from artistes where id=" + id+";";
+			statement = laConnexion.createStatement();
+			statement.executeUpdate(requete);
+			
+			}catch(Exception ex) {
+				
+			System.out.print("Erreur: ");
+			ex.printStackTrace();
+				
+			}
 		
-	//TODO	
 		
 	}
 	

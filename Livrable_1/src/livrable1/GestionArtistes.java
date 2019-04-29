@@ -154,6 +154,29 @@ public class GestionArtistes extends JFrame {
 		getContentPane().add(btnModifier);
 		
 		JButton btnSupprimer = new JButton("Supprimer");
+		btnSupprimer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(textField_1.getText().equals("")){
+					
+					JOptionPane.showMessageDialog(null,"Aucun enregistrement sélectionné, veuillez sélectionner un enregistrement");
+					
+				}else{
+					
+					String id=textField_1.getText();
+					
+					if(JOptionPane.showConfirmDialog(null, "Voulez vous réellement effacer l'enrigstrement n° "+id+" ?", "Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						
+						ConnectionBDD con=new ConnectionBDD();
+						con.Supprimer(id);
+						btnRechercher.doClick();
+						
+					}
+					
+				}
+				
+			}
+		});
 		btnSupprimer.setBounds(521, 245, 114, 25);
 		getContentPane().add(btnSupprimer);
 		
