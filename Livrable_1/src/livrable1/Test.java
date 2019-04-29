@@ -26,18 +26,9 @@ public class Test {
 		
 		
 		try {
-			BufferedImage img;
-			img = ImageIO.read(new File("Images/img1.png"));
-			ImageIcon icon=new ImageIcon(img);
-	        JFrame frame=new JFrame();
-	        frame.setLayout(new FlowLayout());
-	        frame.setSize(200,300);
-	        JLabel lbl=new JLabel();
-	        lbl.setIcon(icon);
-	        frame.add(lbl);
-	        frame.setVisible(true);
-	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		} catch (IOException e) {
+			FenetreAPropos fen=new FenetreAPropos();
+			fen.setVisible(true);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

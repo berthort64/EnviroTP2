@@ -21,6 +21,11 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GestionArtistes extends JFrame {
 	/**
@@ -38,9 +43,9 @@ public class GestionArtistes extends JFrame {
 	 */
 	@SuppressWarnings("serial")
 	public GestionArtistes() {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FenetreTraitement.class.getResource("/livrable1/MusicNote.png")));
 		setTitle("Gestion des artistes \u266A");
-		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 673, 479);
 		getContentPane().setLayout(null);
@@ -218,6 +223,27 @@ public class GestionArtistes extends JFrame {
 				return columnTypes[columnIndex];
 			}
 		});
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu menu = new JMenu("?");
+		menuBar.add(menu);
+		
+		JMenuItem mntmPropos = new JMenuItem("\u00C0 propos");
+		mntmPropos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				FenetreAPropos fen=new FenetreAPropos();
+				fen.setVisible(true);
+			
+			}
+		});
+		
+		menu.add(mntmPropos);
+		
+		JMenuItem mntmAideEnLigne = new JMenuItem("Aide en ligne");
+		menu.add(mntmAideEnLigne);
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {

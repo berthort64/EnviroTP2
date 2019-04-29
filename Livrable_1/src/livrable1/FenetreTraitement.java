@@ -39,6 +39,7 @@ public class FenetreTraitement extends JFrame {
      * Create the frame.
      */
     public FenetreTraitement() {
+    	setResizable(false);
         setIconImage(Toolkit.getDefaultToolkit().getImage(FenetreTraitement.class.getResource("/livrable1/MusicNote.png")));
         setTitle("Gestion musique \u266A");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
