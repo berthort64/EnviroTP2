@@ -80,10 +80,20 @@ public class ConnectionBDD {
 		
 	}
 	
-	public void Modifier() {
+	public void Modifier(String id, String nom,String membre,String pathPhoto) {
 		
-		
-	//TODO	
+		try {
+			
+			String requete="UPDATE artistes SET nom = '"+nom+"', membre = "+membre+", photo = '"+pathPhoto+"' where id=" + id+";";
+			statement = laConnexion.createStatement();
+			statement.executeUpdate(requete);
+			
+			}catch(Exception ex) {
+				
+			System.out.print("Erreur: ");
+			ex.printStackTrace();
+				
+			}
 		
 	}
 	

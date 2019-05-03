@@ -150,6 +150,20 @@ public class GestionArtistes extends JFrame {
 		getContentPane().add(btnAjouter);
 		
 		JButton btnModifier = new JButton("Modifier");
+		btnModifier.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (textField_1.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Veuillez sélectionner un artiste.", "Erreur", JOptionPane.ERROR_MESSAGE);
+				} else {
+					if (validerChamps()) {
+						con.Ajouter(textField_2.getText(), chckbxMember.isSelected() ? "true" : "false", currentpath);
+						btnRechercher.doClick();
+					} else {
+						JOptionPane.showMessageDialog(null, "Veuillez vous assurer que tous les champs sont valides.");
+					}
+				}
+			}
+		});
 		btnModifier.setBounds(521, 208, 114, 25);
 		getContentPane().add(btnModifier);
 		
