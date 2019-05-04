@@ -80,10 +80,20 @@ public class ConnectionBDD {
 		
 	}
 	
-	public void Modifier() {
+	public void Modifier(String id, String nom,String membre,String pathPhoto) {
 		
-		
-	//TODO	
+		try {
+			
+			String requete="UPDATE artistes SET nom = '"+nom+"', membre = "+membre+", photo = '"+pathPhoto+"' where id=" + id+";";
+			statement = laConnexion.createStatement();
+			statement.executeUpdate(requete);
+			
+			}catch(Exception ex) {
+				
+			System.out.print("Erreur: ");
+			ex.printStackTrace();
+				
+			}
 		
 	}
 	
@@ -105,10 +115,21 @@ public class ConnectionBDD {
 	}
 	
 	
-	public void Supprimer() {
+	public void Supprimer(String id) {
 		
+		try {
+			
+			String requete="Delete from artistes where id=" + id+";";
+			statement = laConnexion.createStatement();
+			statement.executeUpdate(requete);
+			
+			}catch(Exception ex) {
+				
+			System.out.print("Erreur: ");
+			ex.printStackTrace();
+				
+			}
 		
-	//TODO	
 		
 	}
 	
@@ -147,6 +168,30 @@ public class ConnectionBDD {
 		
 	}
 	
-	
+	public ArrayList<String> AlbumsParArtiste(Artiste artiste) {
+		
+		ArrayList<String> albums=new ArrayList<String>();
+		
+		try {
+			
+			//Injection de code possible, mais c'est pas grave, la BDD est locale de toute façon.
+			String requete="SELECT titre, annee FROM albums WHERE idArtiste = " + artiste.getId();
+			statement = laConnexion.createStatement();
+			ResultSet jeuResultats = statement.executeQuery(requete);
+			
+			while(jeuResultats.next()) {
+				albums.add(jeuResultats.getString(1) + " (" + jeuResultats.getString(2) + ")");
+			}
+			
+		}catch(Exception ex) {
+				
+			System.out.print("Erreur: ");
+			ex.printStackTrace();
+				
+		}
+		
+		return albums;
+		
+	}
 	
 }
