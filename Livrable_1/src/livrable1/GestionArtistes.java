@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JTable;
@@ -241,8 +242,10 @@ public class GestionArtistes extends JFrame {
 		
 		
 		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(table);
 		table.setDefaultEditor(Object.class, null);
+		table.getTableHeader().setReorderingAllowed(false);
 		
 		table.setModel(new DefaultTableModel(
 			new Object[0][3],
@@ -280,6 +283,13 @@ public class GestionArtistes extends JFrame {
 		menu.add(mntmPropos);
 		
 		JMenuItem mntmAideEnLigne = new JMenuItem("Aide en ligne");
+		mntmAideEnLigne.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				
+				
+			}
+		});
 		menu.add(mntmAideEnLigne);
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
