@@ -19,22 +19,6 @@ public class FenetreTraitement extends JFrame {
     private JButton btnQuitter;
     
     /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    FenetreTraitement frame = new FenetreTraitement();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
- 
-    /**
      * Create the frame.
      */
     public FenetreTraitement() {
@@ -50,6 +34,7 @@ public class FenetreTraitement extends JFrame {
         contentPane.add(getBtnArtistes());
         contentPane.add(getBtnAlbums());
         contentPane.add(getButton_1());
+        setVisible(true);
     }
     private JButton getBtnArtistes() {
         if (btnArtistes == null) {
