@@ -1,6 +1,7 @@
 package livrable1;
 
 import javax.swing.JFrame;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -16,9 +17,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -27,6 +30,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class GestionArtistes extends JFrame {
 	/**
@@ -47,7 +52,6 @@ public class GestionArtistes extends JFrame {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FenetreTraitement.class.getResource("/livrable1/MusicNote.png")));
 		setTitle("Gestion des artistes \u266A");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 673, 479);
 		getContentPane().setLayout(null);
 		
@@ -129,6 +133,7 @@ public class GestionArtistes extends JFrame {
 				
 				list.setListData(new String[0]);
 	            label.setIcon(null);
+	            lblNewLabel.setIcon(null);
 			}
 		});
 		btnNouveau.setBounds(521, 134, 114, 25);
@@ -154,7 +159,7 @@ public class GestionArtistes extends JFrame {
 		btnModifier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (textField_1.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Veuillez sélectionner un artiste.", "Erreur", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Veuillez sï¿½lectionner un artiste.", "Erreur", JOptionPane.ERROR_MESSAGE);
 				} else {
 					if (validerChamps()) {
 						con.Ajouter(textField_2.getText(), chckbxMember.isSelected() ? "true" : "false", currentpath);
@@ -174,13 +179,13 @@ public class GestionArtistes extends JFrame {
 				
 				if(textField_1.getText().equals("")){
 					
-					JOptionPane.showMessageDialog(null,"Aucun enregistrement sélectionné, veuillez sélectionner un enregistrement");
+					JOptionPane.showMessageDialog(null,"Aucun enregistrement sï¿½lectionnï¿½, veuillez sï¿½lectionner un enregistrement");
 					
 				}else{
 					
 					String id=textField_1.getText();
 					
-					if(JOptionPane.showConfirmDialog(null, "Voulez vous réellement effacer l'enrigstrement n° "+id+" ?", "Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					if(JOptionPane.showConfirmDialog(null, "Voulez vous rï¿½ellement effacer l'enrigstrement nï¿½ "+id+" ?", "Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 						
 						ConnectionBDD con=new ConnectionBDD();
 						con.Supprimer(id);
@@ -198,7 +203,28 @@ public class GestionArtistes extends JFrame {
 		JButton btnRemplacer = new JButton("Remplacer");
 		btnRemplacer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				con.Rechercher(textField.getText());
+				
+				JFileChooser chooser = new JFileChooser();
+		        chooser.setFileFilter(new FileNameExtensionFilter("Images", "jpg", "gif", "png"));
+		        
+		        if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+		        	
+		            String newPhoto = chooser.getSelectedFile().getAbsolutePath();
+		            ImageIcon image;
+					try {
+						image = new ImageIcon(new ImageIcon(ImageIO.read(new File(newPhoto))).getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
+			            currentpath=newPhoto;
+			            lblNewLabel.setIcon(image);
+			            
+			            System.out.println("les go");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		            
+		        }
+		        
+        		
 			}
 		});
 		btnRemplacer.setBounds(25, 245, 114, 25);
@@ -298,7 +324,7 @@ public class GestionArtistes extends JFrame {
 	        	if (table.getSelectedRow() != -1) {
 	        		//test image
 	        		Artiste artiste=(Artiste)(table.getValueAt(table.getSelectedRow(),1));
-	        		ImageIcon image=new ImageIcon(new ImageIcon(this.getClass().getResource(artiste.getPhoto())).getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
+	        		ImageIcon image=new ImageIcon(new ImageIcon(artiste.getPhoto()).getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
 	        		currentpath=artiste.getPhoto();
 	        		lblNewLabel.setIcon(image);
 		            textField_1.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
