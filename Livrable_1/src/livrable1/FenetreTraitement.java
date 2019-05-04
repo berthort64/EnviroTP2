@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
  
 public class FenetreTraitement extends JFrame {
- 
     private JPanel contentPane;
     private JButton btnArtistes;
     private JButton btnAlbums;
