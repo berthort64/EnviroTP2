@@ -22,6 +22,7 @@ public class Login extends JFrame {
 	private JPasswordField txtPwd;
 	private JLabel lblMotDePasse;
 	private Login login;
+
 	/**
 	 * Launch the application.
 	 */
@@ -50,36 +51,37 @@ public class Login extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		txtUser = new JTextField();
 		txtUser.setBounds(104, 8, 124, 20);
 		contentPane.add(txtUser);
 		txtUser.setColumns(10);
-		
+
 		txtPwd = new JPasswordField();
 		txtPwd.setBounds(106, 39, 122, 20);
 		contentPane.add(txtPwd);
-		
+
 		JLabel lblNomDutilisateur = new JLabel("Nom d'utilisateur :");
 		lblNomDutilisateur.setBounds(10, 11, 86, 14);
 		contentPane.add(lblNomDutilisateur);
-		
+
 		lblMotDePasse = new JLabel("Mot de passe :");
 		lblMotDePasse.setBounds(10, 42, 86, 14);
 		contentPane.add(lblMotDePasse);
-		login=this;
-		
+		login = this;
+
 		JButton btnNewButton = new JButton("Valider");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (txtUser.getText().equals("admin") && String.copyValueOf(txtPwd.getPassword()).equals("admin")) {
-					
-					FenetreTraitement fen=new FenetreTraitement();
+
+					FenetreTraitement fen = new FenetreTraitement();
 					fen.setVisible(true);
 					login.setVisible(false);
-					
+
 				} else {
-					JOptionPane.showMessageDialog(null, "Le nom d'usager ou le mot de passe est incorrect.", "Erreur", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Le nom d'usager ou le mot de passe est incorrect.", "Erreur",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

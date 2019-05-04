@@ -2,15 +2,15 @@ package livrable1;
 
 public class Artiste {
 
-	private String id,nom,membre,photo;
-	
-	public Artiste(String id,String nom,String membre,String photo) {
-		
-		this.id=id;
-		this.nom=nom;
-		this.membre=membre;
-		this.photo=photo;
-		
+	private String id, nom, membre, photo;
+
+	public Artiste(String id, String nom, String membre, String photo) {
+
+		this.id = id;
+		this.nom = nom;
+		this.membre = membre;
+		this.photo = photo;
+
 	}
 
 	public String getId() {
@@ -44,9 +44,9 @@ public class Artiste {
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.getNom();
-	}	
+	}
 }
