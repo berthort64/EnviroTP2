@@ -21,7 +21,7 @@ public class Login extends JFrame {
 	private JTextField txtUser;
 	private JPasswordField txtPwd;
 	private JLabel lblMotDePasse;
-
+	private Login login;
 	/**
 	 * Launch the application.
 	 */
@@ -67,14 +67,19 @@ public class Login extends JFrame {
 		lblMotDePasse = new JLabel("Mot de passe :");
 		lblMotDePasse.setBounds(10, 42, 86, 14);
 		contentPane.add(lblMotDePasse);
+		login=this;
 		
 		JButton btnNewButton = new JButton("Valider");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (txtUser.getText().equals("admin") && String.copyValueOf(txtPwd.getPassword()).equals("admin")) {
 					
+					FenetreTraitement fen=new FenetreTraitement();
+					fen.setVisible(true);
+					login.setVisible(false);
+					
 				} else {
-					JOptionPane.showMessageDialog(null, "Le non d'usager ou le mot de passe est incorrect.", "Erreur", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Le nom d'usager ou le mot de passe est incorrect.", "Erreur", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

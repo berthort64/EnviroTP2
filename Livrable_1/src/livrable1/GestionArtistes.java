@@ -215,8 +215,6 @@ public class GestionArtistes extends JFrame {
 						image = new ImageIcon(new ImageIcon(ImageIO.read(new File(newPhoto))).getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
 			            currentpath=newPhoto;
 			            lblNewLabel.setIcon(image);
-			            
-			            System.out.println("les go");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

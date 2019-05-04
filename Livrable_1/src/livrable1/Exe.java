@@ -6,7 +6,8 @@ public class Exe {
 		// TODO Auto-generated method stub
 
 		
-		FenetreTraitement fen=new FenetreTraitement();
+		//FenetreTraitement fen=new FenetreTraitement();
+		Login fen=new Login();
 		fen.main(null);
 		
 	}
