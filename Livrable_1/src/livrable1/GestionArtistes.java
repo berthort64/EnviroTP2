@@ -162,7 +162,7 @@ public class GestionArtistes extends JFrame {
 					JOptionPane.showMessageDialog(null, "Veuillez s�lectionner un artiste.", "Erreur", JOptionPane.ERROR_MESSAGE);
 				} else {
 					if (validerChamps()) {
-						con.Ajouter(textField_2.getText(), chckbxMember.isSelected() ? "true" : "false", currentpath);
+						con.Modifier(textField_1.getText(), textField_2.getText(), chckbxMember.isSelected() ? "true" : "false", currentpath);
 						btnRechercher.doClick();
 					} else {
 						JOptionPane.showMessageDialog(null, "Veuillez vous assurer que tous les champs sont valides.");
@@ -215,8 +215,6 @@ public class GestionArtistes extends JFrame {
 						image = new ImageIcon(new ImageIcon(ImageIO.read(new File(newPhoto))).getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
 			            currentpath=newPhoto;
 			            lblNewLabel.setIcon(image);
-			            
-			            System.out.println("les go");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -320,29 +318,27 @@ public class GestionArtistes extends JFrame {
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
-	        	try {
 	        	if (table.getSelectedRow() != -1) {
-	        		//test image
 	        		Artiste artiste=(Artiste)(table.getValueAt(table.getSelectedRow(),1));
-	        		ImageIcon image=new ImageIcon(new ImageIcon(artiste.getPhoto()).getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
-	        		currentpath=artiste.getPhoto();
-	        		lblNewLabel.setIcon(image);
+		        	try {
+		        		//test image
+		        		System.out.println("Photo : " + artiste.getPhoto());
+		        		ImageIcon image=new ImageIcon(new ImageIcon(ImageIO.read(new File(artiste.getPhoto()))).getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
+		        		currentpath=artiste.getPhoto();
+		        		lblNewLabel.setIcon(image);
+		        	}catch(Exception e) {
+		        		e.printStackTrace();
+		        	}
 		            textField_1.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
 		            textField_2.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
 		            chckbxMember.setSelected(table.getValueAt(table.getSelectedRow(), 2).toString().equalsIgnoreCase("oui"));
 		            
 		            list.setListData(con.AlbumsParArtiste(artiste).toArray());
 		            label.setIcon(null);
-		            
 	        	} else {
 	        		textField_1.setText("");
 					textField_2.setText("");
 					chckbxMember.setSelected(false);
-	        	}
-	        	}catch(Exception e) {
-	        		
-	        		
-	        		
 	        	}
 	        }
 	    });
